@@ -9,3 +9,8 @@ theme-settings \<type\> \<theme name\>
 ```
 
 where `type` is one of "gtk", "shell", "icon", or "cursor"
+
+## Requirements
+
+* Python 3
+* GObject Introspection
