@@ -1,0 +1,49 @@
+#!/bin/env python
+
+import argparse
+from gi.repository import Gio, GLib
+
+
+parser = argparse.ArgumentParser(
+	prog="theme-settings",
+	description="Access various theme settings",
+	epilog="Thanks!")
+
+interface_settings = Gio.Settings(schema='org.gnome.desktop.interface')
+shell_settings = Gio.Settings(schema='org.gnome.shell.extensions.user-theme')
+
+parser.add_argument('type',
+	choices=['gtk', 'shell', 'icon', 'cursor'])
+parser.add_argument('name')
+
+args = parser.parse_args()
+
+if args.type == 'gtk':
+	if args.name != '':
+		print('set GTK+ theme to ' + args.name)
+		interface_settings['gtk-theme'] = args.name
+	else:
+		print('reset GTK+ theme')
+		interface_settings.reset('gtk-theme')
+elif args.type == 'shell':
+	if args.name != '':
+		print('set Shell theme to ' + args.name)
+		shell_settings['name'] = args.name
+	else:
+		print('reset GNOME Shell theme')
+		shell_settings.reset('name')
+elif args.type == 'icon':
+	if args.name != '':
+		print('set icon theme to ' + args.name)
+		interface_settings['icon-theme'] = args.name
+	else:
+		print('reset icon theme')
+		interface_settings.reset('icon-theme')
+elif args.type == 'cursor':
+	if args.name != '':
+		print('set cursor theme to ' + args.name)
+		interface_settings['cursor-theme'] = args.name
+	else:
+		print('reset cursor theme')
+		interface_settings.reset('cursor-theme')
+
